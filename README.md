@@ -24,6 +24,23 @@ Passing: 2
 ## Usage
 
 ```
+$ python check-consul-health.py -h
+usage: check-consul-health.py [-h] [--cert FILE] [--key FILE] [--token TOKEN]
+                              [--debug]
+                              {node} ...
+
+positional arguments:
+  {node}         check individual node
+
+optional arguments:
+  -h, --help     show this help message and exit
+  --cert FILE    client certificate
+  --key FILE     client key
+  --token TOKEN  token
+  --debug        debug output
+```
+
+```
 $ python check-consul-health.py node -h
 usage: check-consul-health.py node [-h] [--addr ADDR] [--verbose VERBOSE]
                                    [--CheckID CHECKID]
@@ -37,7 +54,6 @@ positional arguments:
 optional arguments:
   -h, --help                show this help message and exit
   --addr ADDR               consul address [default: http://localhost:8500]
-  --verbose VERBOSE         verbose output
   --CheckID CHECKID         CheckID matcher
   --ServiceName SERVICENAME ServiceName matcher
 ```

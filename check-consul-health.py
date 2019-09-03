@@ -15,9 +15,11 @@ def build_node_url():
     return url
 
 
-def get_json_from_url(url):
+def get_json_from_url(url, headers=None, cert=None):
     dump("url: {0}".format(url))
-    r = requests.get(url)
+    dump("headers: {0}".format(headers))
+    dump("cert: {0}".format(cert))
+    r = requests.get(url, headers=headers, cert=cert)
     dump("Response: " + r.text)
     dump("Status code: " + str(r.status_code))
     r.raise_for_status()
@@ -67,6 +69,9 @@ def process_failing(checks):
 
 def prepare_args():
     parser = argparse.ArgumentParser()
+    parser.add_argument('--cert', metavar='FILE', default=None, type=str, help='client certificate')
+    parser.add_argument('--key', metavar='FILE', default=None, type=str, help='client key')
+    parser.add_argument('--token', default=None, type=str, help='token')
     parser.add_argument('--debug', action='store_true', help='debug output')
 
     subparsers = parser.add_subparsers(help='check individual node')
@@ -86,7 +91,15 @@ if __name__ == '__main__':
         arguments = prepare_args()
 
         url = build_node_url()
-        json_response = get_json_from_url(url)
+        headers = None
+        if arguments['token'] is not None:
+            headers = {'X-Consul-Token': arguments['token']}
+        cert = None
+        if arguments['cert'] is not None or arguments['key'] is not None:
+            if None in [arguments['cert'], arguments['key']]:
+                raise ValueError('both cert and key arguments required')
+            cert = (arguments['cert'], arguments['key'])
+        json_response = get_json_from_url(url, headers=headers, cert=cert)
         exit(process_failing(json_response))
     except SystemExit:
         raise
