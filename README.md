@@ -21,31 +21,24 @@ Passing: 2
 > consul01:raft:Peer list match:peers:passing
 ```
 
-## Install dependencies with pip
-
-```
-pip install -r requirements.txt
-```
-
 ## Usage
 
 ```
-$ python check-consul-health.py -h
-Usage: 
-    check-consul-health.py node NODE DC
-        [--addr=ADDR]
-        [--CheckID=CheckID | --ServiceName=ServiceName]
-        [--verbose]
+$ python check-consul-health.py node -h
+usage: check-consul-health.py node [-h] [--addr ADDR] [--verbose VERBOSE]
+                                   [--CheckID CHECKID]
+                                   [--ServiceName SERVICENAME]
+                                   NODE DC
 
-Arguments:
-    NODE  the consul node_name
-    DC    the consul datacenter
+positional arguments:
+  NODE                  the consul node_name
+  DC                    the consul datacenter
 
-Options:
-    -h --help                  show this
-    -v --verbose               verbose output
-    --addr=ADDR                consul address [default: http://localhost:8500]
-    --CheckID=CheckID          CheckID matcher
-    --ServiceName=ServiceName  ServiceName matcher
+optional arguments:
+  -h, --help                show this help message and exit
+  --addr ADDR               consul address [default: http://localhost:8500]
+  --verbose VERBOSE         verbose output
+  --CheckID CHECKID         CheckID matcher
+  --ServiceName SERVICENAME ServiceName matcher
 ```
 
